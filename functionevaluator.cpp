@@ -11,12 +11,13 @@ void FunctionEvaluator:: setMinX(float number) {
 }
 
 void FunctionEvaluator:: setMaxX(float number) {
+
     this->maximumX = number;
 }
 
 QStringList FunctionEvaluator::splitTerms (QString equation) {
     QRegExp delimiter("[+-]");
-    QStringList terms = equation.split(delimiter) ;
+    QStringList terms = equation.split(delimiter, QString::SkipEmptyParts) ;
 
     return terms;
 }
@@ -28,7 +29,7 @@ QVector<QChar> FunctionEvaluator::splitSigns (QString equation) {
         signs.push_back('+');
     }
 
-    for(int i=1; i < equation.length(); i++){
+    for(int i=0; i < equation.length(); i++){
         if(equation[i] == '+' || equation[i] == '-') {
             signs.push_back(equation[i]);
         }
@@ -50,9 +51,13 @@ float FunctionEvaluator::evaluatTerm (QString term, QChar sign, float x_value) {
     float magnitude = 0, power = 0;
     float result;
 
-    magnitude = term.right(term.indexOf("*")).toFloat();
+    if(!term.contains('*'))
+        magnitude = 1;
+    else
+        magnitude = term.left(term.indexOf("*")).toFloat();
+
     magnitude = (sign == '-') ? magnitude * -1 : magnitude;
-    power = term.left(term.indexOf("^")).toFloat();
+    power = term.right(term.indexOf("^")).toFloat();
 
     result = magnitude * pow(x_value, power);
 
