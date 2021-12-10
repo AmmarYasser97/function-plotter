@@ -29,6 +29,8 @@ private slots:
 
     void on_plotButton_released();
 
+    void invalidEquation();
+
 private:
     Ui::MainWindow *ui;
 };

@@ -11,6 +11,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     chartView->setRenderHint(QPainter::Antialiasing);
     ui->horizontalLayout->addWidget(chartView);
+
+    QRegExp rx("([+-]?[ ]?([0-9]+\\*)?[xX]\\^[0-9]+)[ ]?([+-][ ]?([0-9]+\\*)?[xX]\\^[0-9]+)+[ ]?");
+    QValidator *equationValidaor = new QRegExpValidator(rx, 0);
+    ui->equLine->setValidator(equationValidaor);
+
+    connect(ui->equLine, SIGNAL(inputRejected()), this, SLOT(invalidEquation()));
+
 }
 
 MainWindow::~MainWindow()
@@ -29,9 +36,7 @@ void MainWindow::on_plotButton_clicked()
         return;
     }
 
-//    QRegExp rx("([+-]?\\[0-9]?\\*?[xX]\\^?\\[0-9]?)");
-//    QValidator *equationValidaor = new QRegExpValidator(rx, this);
-//    ui->equLine->setValidator(equationValidaor);
+
 
     FunctionEvaluator equ;
     equ.setEquation(equation);
@@ -52,3 +57,12 @@ void MainWindow::on_plotButton_released()
     chart->removeSeries(series);
     series->clear();
 }
+
+void MainWindow::invalidEquation() {
+    QMessageBox msg;
+    msg.information(this, "Function Plotter","Invalid Equation.\nAny function's term should be constructed as following\n"
+                                             "(sign  magnitude * x or X ^ power value).\nex: -2*X^4");
+    return;
+}
+
+
