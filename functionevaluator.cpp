@@ -38,9 +38,9 @@ QVector<QChar> FunctionEvaluator::splitSigns (QString equation) {
     return signs;
 }
 
-QVector <float> FunctionEvaluator:: rangeOfX (float min_x, float max_x) {
+QVector <float> FunctionEvaluator:: rangeOfX (float min_x, float max_x, float step) {
     QVector<float> values;
-    for(float i = min_x ; i <= max_x ; i++) {
+    for(float i = min_x ; i <= max_x ; i+=step) {
         values.push_back(i);
     }
 
@@ -56,9 +56,12 @@ float FunctionEvaluator::evaluatTerm (QString term, QChar sign, float x_value) {
     else
         magnitude = term.left(term.indexOf("*")).toFloat();
 
-    magnitude = (sign == '-') ? magnitude * -1 : magnitude;
-    power = term.right(term.indexOf("^")).toFloat();
+    if(!term.contains('^'))
+        power = 1;
+    else
+        power = term.mid(term.indexOf("^")+1).toFloat();
 
+    magnitude = (sign == '-') ? magnitude * -1 : magnitude;
     result = magnitude * pow(x_value, power);
 
     return result;
@@ -70,7 +73,7 @@ QList<QPointF> FunctionEvaluator::evaluatEquation () {
 
     QStringList terms = splitTerms(equation);
     QVector <QChar> signs = splitSigns(equation);
-    QVector <float> values = rangeOfX (minimumX, maximumX);
+    QVector <float> values = rangeOfX (minimumX, maximumX, X_STEP);
 
     for(float x_value : values) {
         float y_value = 0;

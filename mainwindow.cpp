@@ -48,7 +48,7 @@ void MainWindow::on_plotButton_clicked()
     chart->legend()->hide();
     chart->addSeries(series);
     chart->createDefaultAxes();
-    chart->setTitle(equation);
+    chart->setTitle("Y = " + equation);
 
 }
 

@@ -9,6 +9,9 @@
 #include <QChar>
 #include <QList>
 #include <QPointF>
+#include <QDebug>
+
+#define X_STEP 0.1
 
 class FunctionEvaluator
 {
@@ -24,7 +27,7 @@ private:
     float maximumX, minimumX;
     QStringList splitTerms (QString equation);
     QVector<QChar> splitSigns (QString equation);
-    QVector <float> rangeOfX (float min_x, float max_x);
+    QVector <float> rangeOfX (float min_x, float max_x, float step=1);
     float evaluatTerm (QString term, QChar sign, float x_value);
 
 };
