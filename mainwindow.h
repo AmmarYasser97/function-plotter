@@ -1,38 +1,38 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include "functionevaluator.h"
-#include <QtCharts>
 #include <QDebug>
-#include <QRegExpValidator>
+#include <QMainWindow>
 #include <QMessageBox>
+#include <QRegExpValidator>
+#include <QtCharts>
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow {
+  Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    QLineSeries* series = new QLineSeries();
-    QChart *chart = new QChart();
-    QChartView *chartView = new QChartView(chart);
+  explicit MainWindow(QWidget *parent = 0);
+  QLineSeries *series = new QLineSeries(); //  Define line chart to plot on it
+  QChart *chart = new QChart();
+  QChartView *chartView =
+      new QChartView(chart); // Initiate chart view to render the line chart
 
-    ~MainWindow();
+  ~MainWindow();
 
 private slots:
-    void on_plotButton_clicked();
+  void on_plotButton_clicked();
 
-    void on_plotButton_released();
+  void on_plotButton_released();
 
-    void invalidEquation();
+  void invalidEquation();
 
 private:
-    Ui::MainWindow *ui;
+  Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H
